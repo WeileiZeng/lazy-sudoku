@@ -22,7 +22,7 @@ def generate( showif=1.0):
             print ('(%.2f seconds)\n' % t)
             #if values == False: print('False values: wrong set up without a solution')
         return (t, solved(values))
-    for i in range(1000):
+    for i in range(10000):
         grid = random_puzzle()
         t, r = time_solve(grid)
         if ( t > cutoff and r):
@@ -36,6 +36,6 @@ from multiprocessing import Pool
 
 if __name__ == "__main__":
     with Pool(15) as p:
-        p.map(generate,[0.2]*100)
+        p.map(generate,[1.2]*1000)
     print('done')
     #generate(showif=None)
