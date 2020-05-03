@@ -110,9 +110,17 @@ def display(values):
 
 ################ Search ################
 
-def solve(grid): return search(parse_grid(grid))
+def solve(grid):
+    solution1 = search(parse_grid(grid))
+    solution2 = search(parse_grid(grid), True)
+    if solution1 == solution2:
+        return solution1
+    else:
+#        print('M',end='') # multi solution
+        return False
 
-def search(values):
+    
+def search(values, reverse=False):
     "Using depth-first search and propagation, try all possible values."
     if values is False:
         return False ## Failed earlier
@@ -120,8 +128,12 @@ def search(values):
         return values ## Solved!
     ## Chose the unfilled square s with the fewest possibilities
     n,s = min((len(values[s]), s) for s in squares if len(values[s]) > 1)
-    return some(search(assign(values.copy(), s, d))
-                for d in values[s])
+    if reverse:
+        order = reversed( values[s] )
+    else:
+        order = values[s]
+    return some(search(assign(values.copy(), s, d), reverse)
+                for d in order)
 
 ################ Utilities ################
 

@@ -16,14 +16,16 @@ def generate( showif=1.0):
         t = time.process_time()-start
         ## Display puzzles that take long enough
         if showif is not None and t > showif:
-            display(grid_values(grid))
-            if values: display(values)
+            #display(grid_values(grid))
+            print(grid)
+            if values: display(values) 
             print ('(%.2f seconds)\n' % t)
+            #if values == False: print('False values: wrong set up without a solution')
         return (t, solved(values))
     for i in range(1000):
         grid = random_puzzle()
         t, r = time_solve(grid)
-        if ( t > cutoff ):
+        if ( t > cutoff and r):
             print('save',i,' time: ',int(t*100),t)
             filename= 'bank/puzzle%d.txt' % int(t*100)
             with open(filename,'a') as f:
@@ -33,7 +35,7 @@ def generate( showif=1.0):
 from multiprocessing import Pool
 
 if __name__ == "__main__":
-    with Pool(5) as p:
-        p.map(generate,[0.02]*3)
+    with Pool(15) as p:
+        p.map(generate,[0.2]*100)
     print('done')
     #generate(showif=None)
